@@ -15,4 +15,8 @@ class Store extends Model
         'public_id'
     ];
 
+    public function products() {
+        return $this->hasMany(Product::class);
+    }
+
 }

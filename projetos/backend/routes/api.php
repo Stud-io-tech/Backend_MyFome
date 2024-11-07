@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\StoreController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,8 +14,16 @@ Route::post('/register', [UserController::class, 'store']);
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::apiResource('/store', StoreController::class);
+    Route::apiResource('/store', StoreController::class)->only(['store', 'update', 'delete']);
+
+    Route::apiResource('/product', ProductController::class)->only(['store', 'update', 'delete']);
 });
+
+Route::get('/store', [StoreController::class, 'index'])->name('store.index');
+Route::get('/store/{store}', [StoreController::class, 'show'])->name('store.show');
+
+Route::get('/product', [ProductController::class, 'index'])->name('product.index');
+Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
