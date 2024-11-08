@@ -2,7 +2,7 @@
 
 # Escopo
 
-Se trata de um sistema de catalogo para comercios do ramo de comidas (restaurantes, lanchonetes, churrascarias e etc.). O sistema deve disponibilizar a visualização dos produtos ofertados por determinada loja e também o perfil da loja em si contendo seus produtos. Poderá existir funcionalidade de venda através do próprio sistema, porém a priori a finalização do pedido será realizado no WhatsApp.
+O MyFome se trata de um sistema de catálogo virtual de produtos do ramo alimentício, introduzido para fins comerciais. O sistema deve disponibilizar a visualização dos produtos ofertados por determinada loja e também o perfil da loja em si contendo seus produtos. Poderá existir funcionalidade de venda através do próprio sistema, porém a priori a finalização do pedido será realizado no WhatsApp.
 
 ## Tecnologias
 
@@ -12,22 +12,22 @@ Se trata de um sistema de catalogo para comercios do ramo de comidas (restaurant
 
 # **Definição do Processo e Ciclo de Vida do Desenvolvimento**
 
-O Processo que será utilizado para o desenvolvimento do Sistema de catalogo de comidas, será uma mescla dos seguintes modelos de ciclo de vida de software: **iterativo** e **incremental**. Visto que o sistema pode iniciar com a prova de conceito e em cada iteração sofrer incrementos trazendo novas funcionalidades.
+O desenvolvimento do sistema de catálogo de comidas seguirá um modelo de ciclo de vida **iterativo** e **incremental**, começando com uma prova de conceito e recebendo incrementos a cada iteração com novas funcionalidades.
 
 ## Etapas e atividades
 
-- Planejamento: Definimos o escopo, requisitos (funcionais e não funcionais), design prévio, papeis e diagramas prévios;
-- Desenvolvimento: Os requisitos sendo implementados com uma certa regra de negócio e padrão especificado, além dos testes unitários;
-- Testes: Testes de integração e inspeção do que foi desenvolvido;
-- Entrega: Quando todos os requisitos da iteração forem desenvolvidos e devidamente testados, esses incrementos serão implantados através de alguma ferramenta de automação e colaboração;
+- Planejamento:  Definição do escopo, requisitos (funcionais e não funcionais), design preliminar, papéis e diagramas iniciais.
+- Desenvolvimento: Implementação dos requisitos conforme as regras de negócio e padrões especificados, além de testes unitários.
+- Testes: Realização de testes de integração e inspeção do que foi desenvolvido.
+- Entrega: Implantação dos incrementos desenvolvidos e testados, utilizando ferramentas de automação e colaboração.
 
 ## Papéis e responsabilidades
 
 - Dono do produto: Welen;
-- Design: Lazáro;
+- Design: Lázaro;
 - Desenvolvedor e testador backend: Welen;
-- Desenvolvedor e testador mobile: Lazáro;
-- DBA:  Lazáro;
+- Desenvolvedor e testador mobile: Lázaro;
+- DBA:  Lázaro;
 - DevOps: Welen;
 
 ## Artefatos de entrada e saída
@@ -42,13 +42,12 @@ Os principais artefatos são:
 
 # **Gestão de Mudanças e Evolução do Projeto**
 
-Caso haja algum pedido de mudança ou alteração, as pessoas em seus respectivos papéis irão verificar a necessidade, onde aprovado, será planejado e implementado durante a próxima iteração.
-
-Estamos usando o Git juntamente com Issues + Github Project.
+Caso haja algum pedido de mudança ou alteração, as pessoas em seus respectivos papéis irão verificar a necessidade. Se aprovado, será planejado e implementado na próxima iteração.
+O controle de mudanças será feito usando Git juntamente com Issues e GitHub Project.
 
 # Prova de conceito
 
-Para essa prova de conceito, foi criado um escopo onde define o principal do projeto (lojas, produtos e a visualização de ambos).
+Para essa prova de conceito, foi criado um escopo que define o principal do projeto (lojas, produtos e a visualização de ambos).
 
 ## Backend
 
