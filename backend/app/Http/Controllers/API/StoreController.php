@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRequest;
 use App\Models\Store;
 use App\Services\StoreService;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class StoreController extends Controller
 {
@@ -31,8 +34,12 @@ class StoreController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
+        if (Gate::allows('user-store')) {
+            return response(['message' => 'User already has a store.'], 401);
+        }
+
         try {
             $imageUrl = null;
             $publicId = null;
@@ -46,10 +53,11 @@ class StoreController extends Controller
             }
 
             $store = StoreService::store([
-                'name' => $request->name,
-                'description' => $request->description,
-                'image' => $imageUrl,
-                'public_id' => $publicId
+                'nome' => $request->name,
+                'descricao' => $request->description,
+                'imagem' => $imageUrl,
+                'public_id' => $publicId,
+                'dono_id' => Auth::user()->id,
             ]);
 
             return response(['store' => $store], 201);
@@ -77,7 +85,7 @@ class StoreController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Store $store)
+    public function update(StoreRequest $request, Store $store)
     {
         try {
             $imageUrl = null;
@@ -96,10 +104,10 @@ class StoreController extends Controller
             }
 
             $storeUpdated = StoreService::update([
-                'name' => $request->name,
-                'description' => $request->description,
-                'image' => $imageUrl ?? $store->image,
-                'public_id' => $publicId ?? $store->public_id
+                'nome' => $request->name,
+                'descricao' => $request->description,
+                'imagem' => $imageUrl ?? $store->imagem,
+                'public_id' => $publicId ?? $store->public_id,
             ], $store);
 
             return response(['store' => $storeUpdated], 200);
@@ -124,5 +132,12 @@ class StoreController extends Controller
         } catch (Exception $e) {
             return response(['message' => $e], 500);
         }
+    }
+
+    public function changeActive(Store $store)
+    {
+        $storeUpdated = StoreService::changeActive($store);
+
+        return response(['store' => $storeUpdated], 200);
     }
 }
