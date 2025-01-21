@@ -17,7 +17,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/store', StoreController::class)->only(['store', 'update', 'destroy']);
     Route::put('/store/active/{store}', [StoreController::class, 'changeActive']);
 
-    Route::apiResource('/product', ProductController::class)->only(['store', 'update', 'delete']);
+    Route::apiResource('/product', ProductController::class)->only(['store', 'update', 'destroy']);
+    Route::put('/product/active/{product}', [ProductController::class, 'changeActive']);
 });
 
 Route::get('/store', [StoreController::class, 'index'])->name('store.index');

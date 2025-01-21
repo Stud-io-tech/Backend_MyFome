@@ -12,15 +12,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            // $table->foreignIdFor(Store::class, 'store_id')->constrained();
-            $table->string('name');
-            $table->text('description');
-            $table->decimal('price');
-            $table->string('image')->nullable();
+        Schema::create('produtos', function (Blueprint $table) {
+            $table->uuid('id');
+            $table->foreignUuid('loja_id')->constrained('lojas');
+            $table->string('nome');
+            $table->text('descricao');
+            $table->decimal('preco');
+            $table->integer('quantidade')->nullable();
+            $table->integer('vendido')->nullable();
+            $table->boolean('ativo')->default(true);
+            $table->string('imagem')->nullable();
             $table->string('public_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('produtos');
     }
 };

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Services\ProductService;
 use Exception;
@@ -36,7 +37,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         try {
             $imageUrl = null;
@@ -51,12 +52,12 @@ class ProductController extends Controller
             }
 
             $product = ProductService::store([
-                'name' => $request->name,
-                'description' => $request->description,
-                'image' => $imageUrl,
+                'nome' => $request->name,
+                'descricao' => $request->description,
+                'imagem' => $imageUrl,
                 'public_id' => $publicId,
-                'price' => $request->price,
-                'store_id' => $request->store_id
+                'preco' => $request->price,
+                'loja_id' => $request->store_id
             ]);
 
             return response(['product' => $product], 201);
@@ -84,7 +85,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         try {
             $imageUrl = null;
@@ -103,11 +104,11 @@ class ProductController extends Controller
             }
 
             $productUpdated = ProductService::update([
-                'name' => $request->name,
-                'description' => $request->description,
-                'image' => $imageUrl ?? $product->image,
+                'nome' => $request->name,
+                'descricao' => $request->description,
+                'imagem' => $imageUrl ?? $product->image,
                 'public_id' => $publicId ?? $product->public_id,
-                'price' => $request->price
+                'preco' => $request->price
             ], $product);
 
             return response(['product' => $productUpdated], 200);
@@ -132,5 +133,12 @@ class ProductController extends Controller
         } catch (Exception $e) {
             return response(['message' => $e], 500);
         }
+    }
+
+    public function changeActive(Product $product)
+    {
+        $productActived = ProductService::changeActive($product);
+
+        return response(['product' => $productActived], 200);
     }
 }
