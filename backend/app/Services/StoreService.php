@@ -33,4 +33,13 @@ class StoreService
 
         return $store;
     }
+
+    public static function changeActive(Store $store)
+    {
+        $store->update([
+            'ativo' => !$store->ativo,
+        ]);
+
+        return $store;
+    }
 }

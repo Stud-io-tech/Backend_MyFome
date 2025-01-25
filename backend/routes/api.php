@@ -14,7 +14,8 @@ Route::post('/register', [UserController::class, 'store']);
 
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    Route::apiResource('/store', StoreController::class)->only(['store', 'update', 'delete']);
+    Route::apiResource('/store', StoreController::class)->only(['store', 'update', 'destroy']);
+    Route::put('/store/active/{store}', [StoreController::class, 'changeActive']);
 
     Route::apiResource('/product', ProductController::class)->only(['store', 'update', 'delete']);
 });
@@ -26,5 +27,8 @@ Route::get('/product', [ProductController::class, 'index'])->name('product.index
 Route::get('/product/{product}', [ProductController::class, 'show'])->name('product.show');
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return response(['user' => $request->user()]);
+    return response([
+        'user' => $request->user(),
+        'store' => $request->user()->store()->first(),
+    ]);
 });
