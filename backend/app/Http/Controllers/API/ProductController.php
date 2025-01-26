@@ -52,12 +52,13 @@ class ProductController extends Controller
             }
 
             $product = ProductService::store([
-                'nome' => $request->name,
-                'descricao' => $request->description,
-                'imagem' => $imageUrl,
+                'name' => $request->name,
+                'description' => $request->description,
+                'image' => $imageUrl,
                 'public_id' => $publicId,
-                'preco' => $request->price,
-                'loja_id' => $request->store_id
+                'price' => $request->price,
+                'store_id' => $request->store_id,
+                'amount' => $request->amount ?? 1,
             ]);
 
             return response(['product' => $product], 201);
@@ -104,11 +105,12 @@ class ProductController extends Controller
             }
 
             $productUpdated = ProductService::update([
-                'nome' => $request->name,
-                'descricao' => $request->description,
-                'imagem' => $imageUrl ?? $product->image,
+                'name' => $request->name,
+                'description' => $request->description,
+                'image' => $imageUrl ?? $product->image,
                 'public_id' => $publicId ?? $product->public_id,
-                'preco' => $request->price
+                'price' => $request->price,
+                'amount' => $request->amount ?? $product->amount,
             ], $product);
 
             return response(['product' => $productUpdated], 200);

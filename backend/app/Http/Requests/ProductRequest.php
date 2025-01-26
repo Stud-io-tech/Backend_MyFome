@@ -27,7 +27,7 @@ class ProductRequest extends FormRequest
             'description' => 'required|string',
             'price' => 'required|numeric',
             'image' => 'image',
-            'store_id' => ['required', 'string', Rule::exists('lojas', 'id')],
+            'store_id' => ['required', 'string', Rule::exists('stores', 'id')],
         ];
     }
 }

@@ -53,11 +53,11 @@ class StoreController extends Controller
             }
 
             $store = StoreService::store([
-                'nome' => $request->name,
-                'descricao' => $request->description,
-                'imagem' => $imageUrl,
+                'name' => $request->name,
+                'description' => $request->description,
+                'image' => $imageUrl,
                 'public_id' => $publicId,
-                'dono_id' => Auth::user()->id,
+                'owner_id' => Auth::user()->id,
             ]);
 
             return response(['store' => $store], 201);
@@ -104,9 +104,9 @@ class StoreController extends Controller
             }
 
             $storeUpdated = StoreService::update([
-                'nome' => $request->name,
-                'descricao' => $request->description,
-                'imagem' => $imageUrl ?? $store->imagem,
+                'name' => $request->name,
+                'description' => $request->description,
+                'image' => $imageUrl ?? $store->imagem,
                 'public_id' => $publicId ?? $store->public_id,
             ], $store);
 

@@ -10,17 +10,17 @@ class Product extends Model
 {
     use SoftDeletes, HasUuids;
 
-    protected $table = 'produtos';
+    protected $table = 'products';
 
     protected $fillable = [
-        'nome',
-        'loja_id',
-        'descricao',
-        'preco',
-        'quantidade',
-        'vendido',
-        'ativo',
-        'imagem',
+        'name',
+        'store_id',
+        'description',
+        'price',
+        'amount',
+        'sold',
+        'active',
+        'image',
         'public_id',
     ];
 

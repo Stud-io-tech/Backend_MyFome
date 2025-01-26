@@ -10,15 +10,15 @@ class Store extends Model
 {
     use HasUuids, SoftDeletes;
 
-    protected $table = 'lojas';    
+    protected $table = 'stores';    
 
     protected $fillable = [
-        'nome',
-        'imagem',
-        'descricao',
+        'name',
+        'image',
+        'description',
         'public_id',
-        'dono_id',
-        'ativo',
+        'owner_id',
+        'active',
     ];
 
     public function owner() {

@@ -25,8 +25,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'ativo',
-        'imagem',
+        'active',
+        'image',
     ];
 
     /**
@@ -53,6 +53,6 @@ class User extends Authenticatable
     }
 
     public function store() {
-        return $this->hasOne(Store::class, 'dono_id');
+        return $this->hasOne(Store::class, 'owner_id');
     }
 }

@@ -15,7 +15,7 @@ class ProductService
 
     public static function getByStore(string $store_id)
     {
-        $products = Product::where('loja_id', $store_id)->get();
+        $products = Product::where('store_id', $store_id)->get();
 
         return $products;
     }
@@ -44,14 +44,14 @@ class ProductService
     public static function changeActive(Product $product)
     {
         $product->update([
-            'ativo' => !$product->ativo,
+            'active' => !$product->active,
         ]);
 
         return $product;
     }
 
     public static function getDisabled() {
-        $products = Product::where('ativo', false)->get();
+        $products = Product::where('active', false)->get();
 
         return $products;
     }
