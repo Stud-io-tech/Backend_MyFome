@@ -141,4 +141,11 @@ class ProductController extends Controller
 
         return response(['product' => $productActived], 200);
     }
+
+    public function getDisabled()
+    {
+        $products = ProductService::getDisabled();
+
+        return response(['products' => $products], 200);
+    }
 }

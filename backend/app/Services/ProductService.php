@@ -49,4 +49,11 @@ class ProductService
 
         return $product;
     }
+
+    public static function getDisabled() {
+        $products = Product::where('ativo', false)->get();
+
+        return $products;
+    }
+
 }
