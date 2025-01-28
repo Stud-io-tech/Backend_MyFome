@@ -57,6 +57,7 @@ class StoreController extends Controller
                 'description' => $request->description,
                 'image' => $imageUrl,
                 'public_id' => $publicId,
+                'whatsapp' => $request->whatsapp,
                 'owner_id' => Auth::user()->id,
             ]);
 
@@ -107,6 +108,7 @@ class StoreController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
                 'image' => $imageUrl ?? $store->imagem,
+                'whatsapp' => $request->whatsapp,
                 'public_id' => $publicId ?? $store->public_id,
             ], $store);
 

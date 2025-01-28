@@ -32,6 +32,7 @@ class UpdateTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -87,6 +88,7 @@ class UpdateTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -134,6 +136,7 @@ class UpdateTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -179,6 +182,7 @@ class UpdateTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);

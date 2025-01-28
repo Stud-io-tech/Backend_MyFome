@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('public_id')->nullable();
             $table->text('description');
             $table->boolean('active')->default(true);
+            $table->string('whatsapp');
             $table->timestamps();
             $table->softDeletes();
         });

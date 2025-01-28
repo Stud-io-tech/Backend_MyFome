@@ -19,6 +19,7 @@ class Store extends Model
         'public_id',
         'owner_id',
         'active',
+        'whatsapp',
     ];
 
     public function owner() {
