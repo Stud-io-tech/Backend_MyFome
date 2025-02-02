@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function __construct(protected ProductService $productService)
+    {
+        
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -51,7 +57,7 @@ class ProductController extends Controller
                 $publicId = $uploadResult->getPublicId();
             }
 
-            $product = ProductService::store([
+            $product = $this->productService->store([
                 'name' => $request->name,
                 'description' => $request->description,
                 'image' => $imageUrl,
@@ -103,8 +109,8 @@ class ProductController extends Controller
                 $imageUrl = $uploadResult->getSecurePath();
                 $publicId = $uploadResult->getPublicId();
             }
-
-            $productUpdated = ProductService::update([
+        
+            $productUpdated = $this->productService->update([
                 'name' => $request->name,
                 'description' => $request->description,
                 'image' => $imageUrl ?? $product->image,
@@ -129,7 +135,7 @@ class ProductController extends Controller
                 cloudinary()->uploadApi()->destroy($product->public_id);
             }
 
-            $productDeleted = ProductService::destroy($product);
+            $productDeleted = $this->productService->destroy($product);
 
             return response(['product' => $productDeleted], 200);
         } catch (Exception $e) {
@@ -139,7 +145,7 @@ class ProductController extends Controller
 
     public function changeActive(Product $product)
     {
-        $productActived = ProductService::changeActive($product);
+        $productActived = $this->productService->changeActive($product);
 
         return response(['product' => $productActived], 200);
     }
