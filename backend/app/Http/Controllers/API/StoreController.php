@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Gate;
 
 class StoreController extends Controller
 {
+    public function __construct(
+        private StoreService $storeService
+    )
+    {
+        
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -52,9 +59,8 @@ class StoreController extends Controller
                 $publicId = $uploadResult->getPublicId();
             }
 
-            $storeService = new StoreService();
-
-            $store = $storeService->store([
+            
+            $store = $this->storeService->store([
                 'name' => $request->name,
                 'description' => $request->description,
                 'image' => $imageUrl,
@@ -106,9 +112,8 @@ class StoreController extends Controller
                 $publicId = $uploadResult->getPublicId();
             }
 
-            $storeService = new StoreService();
-
-            $storeUpdated = $storeService->update([
+            
+            $storeUpdated = $this->storeService->update([
                 'name' => $request->name,
                 'description' => $request->description,
                 'image' => $imageUrl ?? $store->imagem,
@@ -132,9 +137,8 @@ class StoreController extends Controller
                 cloudinary()->uploadApi()->destroy($store->public_id);
             }
 
-            $storeService = new StoreService();
-
-            $storeDeleted = $storeService->destroy($store);
+            
+            $storeDeleted = $this->storeService->destroy($store);
 
             return response(['store' => $storeDeleted], 200);
         } catch (Exception $e) {
@@ -144,9 +148,8 @@ class StoreController extends Controller
 
     public function changeActive(Store $store)
     {
-        $storeService = new StoreService();
-
-        $storeUpdated =  $storeService->changeActive($store);
+        
+        $storeUpdated =  $this->storeService->changeActive($store);
 
         return response(['store' => $storeUpdated], 200);
     }

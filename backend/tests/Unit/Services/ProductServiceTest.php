@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Services;
+// namespace Tests\Unit\Services;
 
 use App\Models\Product;
 use App\Models\Store;
