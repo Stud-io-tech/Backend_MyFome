@@ -10,6 +10,28 @@ class RegisterTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_can_user_register_with_image(): void
+    {
+        $response = $this->post('/api/register', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'image' => 'string',
+        ]);
+
+        $response->assertStatus(201);
+
+        $response->assertJsonStructure([
+            'user' => [
+                'name',
+                'email',
+                'id',
+                'image',
+                'updated_at',
+                'created_at',
+            ]
+        ]);
+    }
+
     public function test_can_user_register(): void
     {
         $response = $this->post('/api/register', [
