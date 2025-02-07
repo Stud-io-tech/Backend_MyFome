@@ -24,7 +24,6 @@ class UserController extends Controller
         $credentials = $request->validate([
             'name' => 'required|string|max: 255',
             'email' => 'required|email|unique:users',
-            'image' => 'string',
         ]);
 
         $user = User::create($credentials);
