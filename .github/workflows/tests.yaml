@@ -41,6 +41,9 @@ jobs:
           extensions: mbstring, pdo, pdo_pgsql, xml, bcmath
           coverage: none
 
+      - name: Setar diretorio
+        run: cd backend
+
       - name: Instalar dependências
         run: |
           composer install --no-progress --no-interaction --prefer-dist
