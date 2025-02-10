@@ -42,7 +42,7 @@ jobs:
           coverage: none
 
       - name: Setar diretorio
-        run: cd backend
+        run: cd ./backend
 
       - name: Instalar dependências
         run: composer install --no-progress --no-interaction --prefer-dist
