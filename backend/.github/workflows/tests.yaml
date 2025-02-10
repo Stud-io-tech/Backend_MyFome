@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - 19-implementar-github-actions-no-backend
   pull_request:
     branches:
       - main
