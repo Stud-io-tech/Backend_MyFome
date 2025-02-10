@@ -45,8 +45,7 @@ jobs:
         run: cd backend
 
       - name: Instalar dependências
-        run: |
-          composer install --no-progress --no-interaction --prefer-dist
+        run: composer install --no-progress --no-interaction --prefer-dist
 
       - name: Copiar arquivo .env
         run: cp .env.example .env
