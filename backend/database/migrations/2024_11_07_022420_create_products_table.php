@@ -13,14 +13,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id();
-            // $table->foreignIdFor(Store::class, 'store_id')->constrained();
+            $table->uuid('id');
+            $table->foreignUuid('store_id')->constrained('stores');
             $table->string('name');
             $table->text('description');
             $table->decimal('price');
+            $table->integer('amount')->nullable();
+            $table->integer('sold')->nullable();
+            $table->boolean('active')->default(true);
             $table->string('image')->nullable();
             $table->string('public_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

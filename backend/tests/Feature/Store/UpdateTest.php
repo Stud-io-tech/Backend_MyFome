@@ -37,6 +37,7 @@ class UpdateTest extends TestCase
             'image' => $file,
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -49,6 +50,7 @@ class UpdateTest extends TestCase
             'image' => $file2,
             'name' => 'loja y',
             'description' => 'description',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $storeUpdated->assertStatus(200);
@@ -74,6 +76,7 @@ class UpdateTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -89,6 +92,7 @@ class UpdateTest extends TestCase
             'image' => $file,
             'name' => 'loja y',
             'description' => 'description',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $storeUpdated->assertStatus(200);
@@ -114,6 +118,7 @@ class UpdateTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -124,6 +129,7 @@ class UpdateTest extends TestCase
             '_method' => 'PUT',
             'name' => 'loja y',
             'description' => 'description',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $storeUpdated->assertStatus(200);
@@ -149,6 +155,7 @@ class UpdateTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -158,6 +165,7 @@ class UpdateTest extends TestCase
         $storeUpdated = $this->post('api/store/' . $id, [
             '_method' => 'PUT',
             'description' => 'description',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $storeUpdated->assertStatus(302);
@@ -183,6 +191,7 @@ class UpdateTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -192,6 +201,43 @@ class UpdateTest extends TestCase
         $storeUpdated = $this->post('api/store/' . $id, [
             '_method' => 'PUT',
             'name' => 'loja x',
+            'whatsapp' => '+5584986460846',
+        ]);
+
+        $storeUpdated->assertStatus(302);
+    }
+
+    public function test_update_store_without_whatsapp(): void
+    {
+        $response = $this->post('/api/register', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
+
+        $response->assertStatus(201);
+
+        $login = $this->post('/api/login', [
+            'email' => 'test@example.com',
+        ]);
+
+        $login->assertStatus(200);
+
+        $login->assertExactJsonStructure(['token']);
+
+        $store = $this->post('/api/store', [
+            'name' => 'loja x',
+            'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
+        ]);
+
+        $store->assertStatus(201);
+
+        $id = $store->json('store')['id'];
+
+        $storeUpdated = $this->post('api/store/' . $id, [
+            '_method' => 'PUT',
+            'name' => 'loja x',
+            'description' => '+5584986460846',
         ]);
 
         $storeUpdated->assertStatus(302);
@@ -217,6 +263,7 @@ class UpdateTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -250,6 +297,7 @@ class UpdateTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -258,6 +306,7 @@ class UpdateTest extends TestCase
             '_method' => 'PUT',
             'name' => 'loja y',
             'description' => 'description',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $storeUpdated->assertStatus(404);

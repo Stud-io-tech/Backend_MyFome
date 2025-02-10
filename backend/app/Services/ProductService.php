@@ -6,6 +6,9 @@ use App\Models\Product;
 
 class ProductService
 {
+
+    private Product $product;
+
     public static function index()
     {
         $products = Product::all();
@@ -20,24 +23,47 @@ class ProductService
         return $products;
     }
 
-    public static function store(array $data)
+    public function store(array $data)
     {
-        $product = Product::create($data);
+        $this->product = Product::create($data);
 
-        return $product;
+        return $this->product;
     }
 
-    public static function update(array $data, Product $product)
+    public function update(array $data, Product $product)
     {
-        $product->update($data);
+        $this->product = $product;
 
-        return $product;
+        $this->product->update($data);
+
+        return $this->product;
     }
 
-    public static function destroy(Product $product)
+    public function destroy(Product $product)
     {
-        $product->delete();
+        $this->product = $product;
 
-        return $product;
+        $this->product->delete();
+
+        return $this->product;
     }
+
+    public function changeActive(Product $product)
+    {
+
+        $this->product = $product;
+
+        $this->product->update([
+            'active' => !$product->active,
+        ]);
+
+        return $this->product;
+    }
+
+    public static function getDisabled() {
+        $products = Product::where('active', false)->get();
+
+        return $products;
+    }
+
 }

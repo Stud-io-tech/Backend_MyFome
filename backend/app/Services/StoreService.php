@@ -6,6 +6,8 @@ use App\Models\Store;
 
 class StoreService
 {
+    private Store $store;
+
     public static function index()
     {
         $stores = Store::all();
@@ -13,33 +15,39 @@ class StoreService
         return $stores;
     }
 
-    public static function store(array $data)
+    public function store(array $data)
     {
-        $store = Store::create($data);
+        $this->store = Store::create($data);
 
-        return $store;
+        return $this->store;
     }
 
-    public static function update(array $data, Store $store)
-    {
-        $store->update($data);
+    public function update(array $data, Store $store)
+    {   
+        $this->store = $store;
 
-        return $store;
+        $this->store->update($data);
+
+        return $this->store;
     }
 
-    public static function destroy(Store $store)
-    {
-        $store->delete();
+    public function destroy(Store $store)
+    {   
+        $this->store = $store;
 
-        return $store;
+        $this->store->delete();
+
+        return $this->store;
     }
 
-    public static function changeActive(Store $store)
+    public function changeActive(Store $store)
     {
-        $store->update([
-            'ativo' => !$store->ativo,
+        $this->store = $store;
+
+        $this->store->update([
+            'active' => !$store->active,
         ]);
 
-        return $store;
+        return $this->store;
     }
 }

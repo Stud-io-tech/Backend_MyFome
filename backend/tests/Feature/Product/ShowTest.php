@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Store;
+namespace Tests\Feature\Product;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -10,7 +10,7 @@ class ShowTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_show_store(): void
+    public function test_show_product(): void
     {
         $response = $this->post('/api/register', [
             'name' => 'Test User',
@@ -34,15 +34,26 @@ class ShowTest extends TestCase
         ]);
 
         $store->assertStatus(201);
-        
-        $id = $store->json('store')['id'];
-        
-        $storeViewed = $this->get('api/store/'.$id);
 
-        $storeViewed->assertStatus(200);
+        $storeId = $store->json('store')['id'];
+
+        $product = $this->post('api/product', [
+            'name' => 'Produto 1',
+            'description' => 'Produto massa',
+            'price' => 10.99,
+            'store_id' => $storeId,
+        ]);
+
+        $product->assertStatus(201);
+
+        $productId = $product->json('product')['id'];
+
+        $productViewed = $this->get('api/product/'. $productId);
+
+        $productViewed->assertStatus(200);
     }
 
-    public function test_show_store_incorrect_id(): void
+    public function test_show_product_incorrect_id(): void
     {
         $response = $this->post('/api/register', [
             'name' => 'Test User',
@@ -66,10 +77,20 @@ class ShowTest extends TestCase
         ]);
 
         $store->assertStatus(201);
-        
-        $storeViewed = $this->get('api/store/xxxx');
 
-        $storeViewed->assertStatus(404);
+        $storeId = $store->json('store')['id'];
+
+        $product = $this->post('api/product', [
+            'name' => 'Produto 1',
+            'description' => 'Produto massa',
+            'price' => 10.99,
+            'store_id' => $storeId,
+        ]);
+
+        $product->assertStatus(201);
+
+        $productViewed = $this->get('api/product/xxxx');
+
+        $productViewed->assertStatus(404);
     }
-
 }

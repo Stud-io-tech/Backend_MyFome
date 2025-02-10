@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreRequest extends FormRequest
+class ProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,9 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|string|max: 255',
             'description' => 'required|string',
-            'whatsapp' => 'required|string',
+            'price' => 'required|numeric',
             'image' => 'image',
+            'store_id' => ['required', 'string', Rule::exists('stores', 'id')],
         ];
     }
 }

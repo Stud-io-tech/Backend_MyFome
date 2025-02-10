@@ -37,6 +37,7 @@ class RegisterTest extends TestCase
             'image' => $file,
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -62,6 +63,7 @@ class RegisterTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(201);
@@ -86,6 +88,7 @@ class RegisterTest extends TestCase
 
         $store = $this->post('/api/store', [
             'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(302);
@@ -110,12 +113,38 @@ class RegisterTest extends TestCase
 
         $store = $this->post('/api/store', [
             'name' => 'loja y',
+            'whatsapp' => '+5584986460846',
         ]);
 
         $store->assertStatus(302);
     }
 
-    public function test_create_store_without_name_and_description(): void
+    public function test_create_store_without_whatsapp(): void
+    {
+        $response = $this->post('/api/register', [
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
+
+        $response->assertStatus(201);
+
+        $login = $this->post('/api/login', [
+            'email' => 'test@example.com',
+        ]);
+
+        $login->assertStatus(200);
+
+        $login->assertExactJsonStructure(['token']);
+
+        $store = $this->post('/api/store', [
+            'name' => 'loja y',
+            'description' => 'aodjaos',
+        ]);
+
+        $store->assertStatus(302);
+    }
+
+    public function test_create_store_without_name_and_description_and_whatsapp(): void
     {
         $response = $this->post('/api/register', [
             'name' => 'Test User',

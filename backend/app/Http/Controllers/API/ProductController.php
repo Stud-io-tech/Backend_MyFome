@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductRequest;
 use App\Models\Product;
 use App\Services\ProductService;
 use Exception;
@@ -10,6 +11,12 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+
+    public function __construct(protected ProductService $productService)
+    {
+        
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -36,7 +43,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
         try {
             $imageUrl = null;
@@ -50,13 +57,14 @@ class ProductController extends Controller
                 $publicId = $uploadResult->getPublicId();
             }
 
-            $product = ProductService::store([
+            $product = $this->productService->store([
                 'name' => $request->name,
                 'description' => $request->description,
                 'image' => $imageUrl,
                 'public_id' => $publicId,
                 'price' => $request->price,
-                'store_id' => $request->store_id
+                'store_id' => $request->store_id,
+                'amount' => $request->amount ?? 1,
             ]);
 
             return response(['product' => $product], 201);
@@ -84,7 +92,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductRequest $request, Product $product)
     {
         try {
             $imageUrl = null;
@@ -101,13 +109,14 @@ class ProductController extends Controller
                 $imageUrl = $uploadResult->getSecurePath();
                 $publicId = $uploadResult->getPublicId();
             }
-
-            $productUpdated = ProductService::update([
+        
+            $productUpdated = $this->productService->update([
                 'name' => $request->name,
                 'description' => $request->description,
                 'image' => $imageUrl ?? $product->image,
                 'public_id' => $publicId ?? $product->public_id,
-                'price' => $request->price
+                'price' => $request->price,
+                'amount' => $request->amount ?? $product->amount,
             ], $product);
 
             return response(['product' => $productUpdated], 200);
@@ -126,11 +135,25 @@ class ProductController extends Controller
                 cloudinary()->uploadApi()->destroy($product->public_id);
             }
 
-            $productDeleted = ProductService::destroy($product);
+            $productDeleted = $this->productService->destroy($product);
 
             return response(['product' => $productDeleted], 200);
         } catch (Exception $e) {
             return response(['message' => $e], 500);
         }
+    }
+
+    public function changeActive(Product $product)
+    {
+        $productActived = $this->productService->changeActive($product);
+
+        return response(['product' => $productActived], 200);
+    }
+
+    public function getDisabled()
+    {
+        $products = ProductService::getDisabled();
+
+        return response(['products' => $products], 200);
     }
 }
