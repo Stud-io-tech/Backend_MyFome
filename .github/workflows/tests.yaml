@@ -50,7 +50,8 @@ jobs:
 
       - name: Copiar arquivo .env
         run: cp .env.example .env
-
+        working-directory: ./backend
+      
       - name: Configurar ambiente para PostgreSQL
         run: |
           echo "DB_CONNECTION=pgsql" >> .env
@@ -59,15 +60,20 @@ jobs:
           echo "DB_DATABASE=testing" >> .env
           echo "DB_USERNAME=user" >> .env
           echo "DB_PASSWORD=password" >> .env
+        working-directory: ./backend
 
       - name: Gerar chave da aplicação
         run: php artisan key:generate
+        working-directory: ./backend
 
       - name: Executar migrations
         run: php artisan migrate --force
+        working-directory: ./backend
 
       - name: Rodar testes de integracao
         run: php artisan test --testsuite=Feature
+        working-directory: ./backend
+      
       - name: Rodar testes unitarios
         run: php artisan test --testsuite=Unit
-
+        working-directory: ./backend
