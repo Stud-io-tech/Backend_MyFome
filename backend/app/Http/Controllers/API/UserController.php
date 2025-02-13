@@ -21,12 +21,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'name' => 'required|string|max: 255',
             'email' => 'required|email|unique:users',
         ]);
 
-        $user = User::create($credentials);
+        $user = User::create($request->all());
 
         return response(['user' => $user], 201);
     }
