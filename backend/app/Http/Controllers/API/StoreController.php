@@ -116,7 +116,7 @@ class StoreController extends Controller
             $storeUpdated = $this->storeService->update([
                 'name' => $request->name,
                 'description' => $request->description,
-                'image' => $imageUrl ?? $store->imagem,
+                'image' => $imageUrl ?? $store->image,
                 'whatsapp' => $request->whatsapp,
                 'public_id' => $publicId ?? $store->public_id,
             ], $store);
