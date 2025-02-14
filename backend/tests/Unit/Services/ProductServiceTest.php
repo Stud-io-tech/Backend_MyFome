@@ -124,10 +124,10 @@ class ProductServiceTest extends TestCase
     public function test_it_can_get_disabled_products(): void
     {
         // Criando um produto inativo
-        Product::factory()->create(['name' => 'Produto Inativo', 'active' => false]);
+        $product = Product::factory()->create(['name' => 'Produto Inativo', 'active' => false]);
 
         $service = new ProductService();
-        $disabledProducts = $service->getDisabled();
+        $disabledProducts = $service->getDisabled($product->store->id);
 
         // Verificando que o produto inativo foi retornado
         $this->assertCount(1, $disabledProducts);

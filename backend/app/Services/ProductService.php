@@ -60,8 +60,8 @@ class ProductService
         return $this->product;
     }
 
-    public static function getDisabled() {
-        $products = Product::where('active', false)->get();
+    public static function getDisabled(string $storeId) {
+        $products = Product::where('store_id', $storeId)->where('active', false)->get();
 
         return $products;
     }

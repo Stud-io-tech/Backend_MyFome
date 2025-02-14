@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use App\Models\Store;
 use App\Services\ProductService;
 use Exception;
 use Illuminate\Http\Request;
@@ -150,9 +151,9 @@ class ProductController extends Controller
         return response(['product' => $productActived], 200);
     }
 
-    public function getDisabled()
+    public function getDisabled(Store $store)
     {
-        $products = ProductService::getDisabled();
+        $products = ProductService::getDisabled($store->id);
 
         return response(['products' => $products], 200);
     }
