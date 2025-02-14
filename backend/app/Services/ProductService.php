@@ -18,7 +18,7 @@ class ProductService
 
     public static function getByStore(string $store_id)
     {
-        $products = Product::where('store_id', $store_id)->get();
+        $products = Product::where('store_id', $store_id)->where('active', true)->get();
 
         return $products;
     }
