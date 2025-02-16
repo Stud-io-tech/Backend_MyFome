@@ -19,7 +19,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::apiResource('/product', ProductController::class)->only(['store', 'update', 'destroy']);
     Route::put('/product/active/{product}', [ProductController::class, 'changeActive']);
-    Route::get('product/disabled', [ProductController::class, 'getDisabled']);
+    Route::get('product/disabled/{store}', [ProductController::class, 'getDisabled']);
 });
 
 Route::get('/store', [StoreController::class, 'index'])->name('store.index');

@@ -52,14 +52,12 @@ class GetDisabledTest extends TestCase
 
         $productChanged->assertStatus(200);
 
-        $productsDisabled = $this->get('api/product/disabled');
+        $productsDisabled = $this->get('api/product/disabled/' . $storeId);
 
         $productsDisabled->assertStatus(200);
 
         $productsDisabled->assertJsonStructure([
             'products'
         ]);
-
     }
-
 }
