@@ -18,7 +18,8 @@ class ProductService
 
     public static function getByStore(string $store_id)
     {
-        $products = Product::where('store_id', $store_id)->where('active', true)->get();
+        $products = Product::where('store_id', $store_id)->where('active', true)
+            ->orderBy('created_at', 'desc')->get();
 
         return $products;
     }
@@ -60,10 +61,11 @@ class ProductService
         return $this->product;
     }
 
-    public static function getDisabled(string $storeId) {
-        $products = Product::where('store_id', $storeId)->where('active', false)->get();
+    public static function getDisabled(string $storeId)
+    {
+        $products = Product::where('store_id', $storeId)->where('active', false)
+            ->orderBy('created_at', 'desc')->get();
 
         return $products;
     }
-
 }
