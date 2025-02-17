@@ -11,7 +11,7 @@ class ProductService
 
     public static function index()
     {
-        $products = Product::all();
+        $products = Product::where('active', true)->get();
 
         return $products;
     }
