@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Gate;
 
 class StoreController extends Controller
 {
+    public function __construct(
+        private StoreService $storeService
+    )
+    {
+        
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -52,12 +59,14 @@ class StoreController extends Controller
                 $publicId = $uploadResult->getPublicId();
             }
 
-            $store = StoreService::store([
-                'nome' => $request->name,
-                'descricao' => $request->description,
-                'imagem' => $imageUrl,
+            
+            $store = $this->storeService->store([
+                'name' => $request->name,
+                'description' => $request->description,
+                'image' => $imageUrl,
                 'public_id' => $publicId,
-                'dono_id' => Auth::user()->id,
+                'whatsapp' => $request->whatsapp,
+                'owner_id' => Auth::user()->id,
             ]);
 
             return response(['store' => $store], 201);
@@ -103,10 +112,12 @@ class StoreController extends Controller
                 $publicId = $uploadResult->getPublicId();
             }
 
-            $storeUpdated = StoreService::update([
-                'nome' => $request->name,
-                'descricao' => $request->description,
-                'imagem' => $imageUrl ?? $store->imagem,
+            
+            $storeUpdated = $this->storeService->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'image' => $imageUrl ?? $store->image,
+                'whatsapp' => $request->whatsapp,
                 'public_id' => $publicId ?? $store->public_id,
             ], $store);
 
@@ -126,7 +137,8 @@ class StoreController extends Controller
                 cloudinary()->uploadApi()->destroy($store->public_id);
             }
 
-            $storeDeleted = StoreService::destroy($store);
+            
+            $storeDeleted = $this->storeService->destroy($store);
 
             return response(['store' => $storeDeleted], 200);
         } catch (Exception $e) {
@@ -136,7 +148,8 @@ class StoreController extends Controller
 
     public function changeActive(Store $store)
     {
-        $storeUpdated = StoreService::changeActive($store);
+        
+        $storeUpdated =  $this->storeService->changeActive($store);
 
         return response(['store' => $storeUpdated], 200);
     }

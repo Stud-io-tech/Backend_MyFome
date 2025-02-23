@@ -12,14 +12,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lojas', function (Blueprint $table) {
+        Schema::create('stores', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('dono_id')->constrained('users');
-            $table->string('nome');
-            $table->string('imagem')->nullable();
+            $table->foreignUuid('owner_id')->constrained('users');
+            $table->string('name');
+            $table->string('image')->nullable();
             $table->string('public_id')->nullable();
-            $table->text('descricao');
-            $table->boolean('ativo')->default(true);
+            $table->text('description');
+            $table->boolean('active')->default(true);
+            $table->string('whatsapp');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lojas');
+        Schema::dropIfExists('stores');
     }
 };

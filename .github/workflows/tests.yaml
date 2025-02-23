@@ -1,0 +1,79 @@
+name: Run Laravel Tests
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - 19-implementar-github-actions-no-backend
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: testing
+          POSTGRES_USER: user
+          POSTGRES_PASSWORD: password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U user -d testing"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: mbstring, pdo, pdo_pgsql, xml, bcmath
+          coverage: none
+
+      - name: Setar diretorio
+        run: cd ./backend
+
+      - name: Instalar dependências
+        run: composer install --no-progress --no-interaction --prefer-dist
+        working-directory: ./backend
+
+      - name: Copiar arquivo .env
+        run: cp .env.example .env
+        working-directory: ./backend
+      
+      - name: Configurar ambiente para PostgreSQL
+        run: |
+          echo "DB_CONNECTION=pgsql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "DB_DATABASE=testing" >> .env
+          echo "DB_USERNAME=user" >> .env
+          echo "DB_PASSWORD=password" >> .env
+        working-directory: ./backend
+
+      - name: Gerar chave da aplicação
+        run: php artisan key:generate
+        working-directory: ./backend
+
+      - name: Executar migrations
+        run: php artisan migrate --force
+        working-directory: ./backend
+
+      - name: Rodar testes de integracao
+        run: php artisan test --testsuite=Feature
+        working-directory: ./backend
+      
+      - name: Rodar testes unitarios
+        run: php artisan test --testsuite=Unit
+        working-directory: ./backend

@@ -6,38 +6,66 @@ use App\Models\Product;
 
 class ProductService
 {
+
+    private Product $product;
+
     public static function index()
     {
-        $products = Product::all();
+        $products = Product::where('active', true)->get();
 
         return $products;
     }
 
     public static function getByStore(string $store_id)
     {
-        $products = Product::where('store_id', $store_id)->get();
+        $products = Product::where('store_id', $store_id)->where('active', true)
+            ->orderBy('created_at', 'desc')->get();
 
         return $products;
     }
 
-    public static function store(array $data)
+    public function store(array $data)
     {
-        $product = Product::create($data);
+        $this->product = Product::create($data);
 
-        return $product;
+        return $this->product;
     }
 
-    public static function update(array $data, Product $product)
+    public function update(array $data, Product $product)
     {
-        $product->update($data);
+        $this->product = $product;
 
-        return $product;
+        $this->product->update($data);
+
+        return $this->product;
     }
 
-    public static function destroy(Product $product)
+    public function destroy(Product $product)
     {
-        $product->delete();
+        $this->product = $product;
 
-        return $product;
+        $this->product->delete();
+
+        return $this->product;
+    }
+
+    public function changeActive(Product $product)
+    {
+
+        $this->product = $product;
+
+        $this->product->update([
+            'active' => !$product->active,
+        ]);
+
+        return $this->product;
+    }
+
+    public static function getDisabled(string $storeId)
+    {
+        $products = Product::where('store_id', $storeId)->where('active', false)
+            ->orderBy('created_at', 'desc')->get();
+
+        return $products;
     }
 }
