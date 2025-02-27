@@ -19,8 +19,8 @@ jobs:
           script: |
             sudo git config --global --add safe.directory /var/www/app
             cd /var/www/app/backend  # Mude para o diretório correto
-            sudo chown -R $USER:$USER /var/www/app
-            sudo chmod -R 775 /var/www/app/storage /var/www/app/bootstrap/cache
+            sudo chown -R $USER:$USER /var/www/app/backend
+            sudo chmod -R 775 /var/www/app/backend/storage /var/www/app/backend/bootstrap/cache
             git pull origin main
             composer install --no-dev --optimize-autoloader
             php artisan migrate --force
