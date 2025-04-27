@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Store;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -30,7 +31,7 @@ class RegisterTest extends TestCase
         $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         Storage::fake('avatars');
- 
+
         $file = UploadedFile::fake()->image('avatar.jpg');
 
         $store = $this->post('/api/store', [
@@ -142,6 +143,38 @@ class RegisterTest extends TestCase
         ]);
 
         $store->assertStatus(302);
+    }
+
+    public function test_should_cant_create_store_double_whatsapp(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $store = $this->post('/api/store', [
+            'name' => 'loja x',
+            'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
+        ]);
+
+        $store->assertCreated();
+
+        $newuser = User::factory()->create();
+
+        $this->actingAs($newuser);
+
+        $store = $this->withHeaders([
+            'Accept' => 'application/json',
+        ])->post('/api/store', [
+                'name' => 'loja y',
+                'description' => 'descrição',
+                'whatsapp' => '+5584986460846',
+            ]);
+
+        $store->assertStatus(422);
+        $store->assertJson([
+            'message' => 'The whatsapp has already been taken.',
+        ]);
     }
 
     public function test_create_store_without_name_and_description_and_whatsapp(): void
