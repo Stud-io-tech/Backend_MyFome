@@ -91,7 +91,7 @@ class AuthController extends Controller
         $token = RefreshToken::where('token', $hashedToken)->first();
     
         if (!$token || $token->expires_at->isPast()) {
-            return response()->json(['message' => 'Invalid refresh token'], 401);
+            return response()->json(['message' => 'Invalid refresh token.'], 401);
         }
     
         $user = $token->user;
