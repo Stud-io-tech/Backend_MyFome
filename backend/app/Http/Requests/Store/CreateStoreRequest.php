@@ -1,19 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Store;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class CreateStoreRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,7 +16,7 @@ class StoreRequest extends FormRequest
         return [
             'name' => 'required|string|max: 255',
             'description' => 'required|string',
-            'whatsapp' => 'required|string',
+            'whatsapp' => 'required|string|unique:stores,whatsapp',
             'image' => 'image',
         ];
     }

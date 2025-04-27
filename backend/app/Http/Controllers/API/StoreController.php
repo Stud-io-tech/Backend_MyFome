@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreRequest;
+use App\Http\Requests\Store\CreateStoreRequest;
+use App\Http\Requests\Store\UpdateStoreRequest;
 use App\Models\Store;
 use App\Services\StoreService;
 use Exception;
@@ -41,7 +42,7 @@ class StoreController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequest $request)
+    public function store(CreateStoreRequest $request)
     {
         if (Gate::allows('user-store')) {
             return response(['message' => 'User already has a store.'], 401);
@@ -94,7 +95,7 @@ class StoreController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreRequest $request, Store $store)
+    public function update(UpdateStoreRequest $request, Store $store)
     {
         try {
             $imageUrl = null;
