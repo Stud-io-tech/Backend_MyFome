@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\RefreshToken;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -35,9 +38,21 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        $token = Auth::user()->createToken('login_token');
+        $accessToken = Auth::user()->createToken('access_token')
+            ->plainTextToken;
 
-        return response(['token' => $token->plainTextToken], 200);
+        $refreshToken = Str::random(64);
+
+        RefreshToken::create([
+            'user_id' => $user->id,
+            'token' => hash('sha256', $refreshToken),
+            'expires_at' => Carbon::now()->addDays(config('refreshtoken.expiration_days')),
+        ]);
+
+        return response([
+            'access_token' => $accessToken,
+            'refresh_token' => $refreshToken,
+        ], 200);
     }
 
     /**
@@ -64,5 +79,27 @@ class AuthController extends Controller
         Auth::user()->currentAccessToken()->delete();
 
         return response(null, 200);
+    }
+
+    public function refreshToken(Request $request) {
+        $request->validate([
+            'refresh_token' => 'required',
+        ]);
+    
+        $hashedToken = hash('sha256', $request->refresh_token);
+    
+        $token = RefreshToken::where('token', $hashedToken)->first();
+    
+        if (!$token || $token->expires_at->isPast()) {
+            return response()->json(['message' => 'Invalid refresh token.'], 401);
+        }
+    
+        $user = $token->user;
+        
+        $accessToken = $user->createToken('access_token')->plainTextToken;
+
+        return response()->json([
+            'access_token' => $accessToken,
+        ]);
     }
 }

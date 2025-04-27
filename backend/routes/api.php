@@ -4,10 +4,13 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\StoreController;
 use App\Http\Controllers\API\UserController;
+use Illuminate\Container\Attributes\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'store']);
+Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
+
 Route::delete('/logout', [AuthController::class, 'destroy'])->middleware(['auth:sanctum']);
 
 Route::post('/register', [UserController::class, 'store']);

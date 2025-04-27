@@ -27,13 +27,13 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         Storage::fake('avatars');
 
         $file = UploadedFile::fake()->image('avatar.jpg');
 
-        $store = $this->withHeader('Authorization', 'Bearer'. $login->json('token'))->post('/api/store', [
+        $store = $this->withHeader('Authorization', 'Bearer'. $login->json('access_token'))->post('/api/store', [
             'image' => $file,
             'name' => 'loja x',
             'description' => 'descrição',
@@ -46,7 +46,7 @@ class UpdateTest extends TestCase
 
         $file2 = UploadedFile::fake()->image('avatar2.jpg');
 
-        $storeUpdated = $this->withHeader('Authorization', 'Bearer'. $login->json('token'))->put('api/store/' . $id, [
+        $storeUpdated = $this->withHeader('Authorization', 'Bearer'. $login->json('access_token'))->put('api/store/' . $id, [
             'image' => $file2,
             'name' => 'loja y',
             'description' => 'description',
@@ -71,7 +71,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -113,7 +113,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -150,7 +150,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -186,7 +186,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -222,7 +222,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -258,7 +258,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -292,7 +292,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',

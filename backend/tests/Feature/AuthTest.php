@@ -25,7 +25,7 @@ class AuthTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
     }
 
     public function test_cant_user_login_not_register(): void
@@ -61,9 +61,12 @@ class AuthTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure([
+            'access_token',
+            'refresh_token',
+        ]);
 
-        $token = $login->json()['token'];
+        $token = $login->json()['access_token'];
 
         $response = $this->get('/api/user', [
             'authorization' => 'Bearer ' . $token,

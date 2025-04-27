@@ -25,9 +25,9 @@ class DestroyTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
-        $store = $this->withHeader('Authorization', 'Bearer' . $login->json('token'))->post('/api/store', [
+        $store = $this->withHeader('Authorization', 'Bearer' . $login->json('access_token'))->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
@@ -37,7 +37,7 @@ class DestroyTest extends TestCase
 
         $id = $store->json('store')['id'];
 
-        $storeDeleted = $this->withHeader('Authorization', 'Bearer' . $login->json('token'))->delete('api/store/' . $id);
+        $storeDeleted = $this->withHeader('Authorization', 'Bearer' . $login->json('access_token'))->delete('api/store/' . $id);
 
         $storeDeleted->assertStatus(200);
     }
@@ -57,9 +57,9 @@ class DestroyTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
-        $store = $this->withHeader('Authorization', 'Bearer' . $login->json('token'))->post('/api/store', [
+        $store = $this->withHeader('Authorization', 'Bearer' . $login->json('access_token'))->post('/api/store', [
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
@@ -67,7 +67,7 @@ class DestroyTest extends TestCase
 
         $store->assertStatus(201);
 
-        $storeDeleted = $this->withHeader('Authorization', 'Bearer' . $login->json('token'))->delete('api/store/xxxx');
+        $storeDeleted = $this->withHeader('Authorization', 'Bearer' . $login->json('access_token'))->delete('api/store/xxxx');
 
         $storeDeleted->assertStatus(404);
     }
