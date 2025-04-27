@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Store;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -27,13 +28,13 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         Storage::fake('avatars');
 
         $file = UploadedFile::fake()->image('avatar.jpg');
 
-        $store = $this->withHeader('Authorization', 'Bearer'. $login->json('token'))->post('/api/store', [
+        $store = $this->withHeader('Authorization', 'Bearer' . $login->json('access_token'))->post('/api/store', [
             'image' => $file,
             'name' => 'loja x',
             'description' => 'descrição',
@@ -46,7 +47,7 @@ class UpdateTest extends TestCase
 
         $file2 = UploadedFile::fake()->image('avatar2.jpg');
 
-        $storeUpdated = $this->withHeader('Authorization', 'Bearer'. $login->json('token'))->put('api/store/' . $id, [
+        $storeUpdated = $this->withHeader('Authorization', 'Bearer' . $login->json('access_token'))->put('api/store/' . $id, [
             'image' => $file2,
             'name' => 'loja y',
             'description' => 'description',
@@ -54,6 +55,74 @@ class UpdateTest extends TestCase
         ]);
 
         $storeUpdated->assertStatus(200);
+    }
+
+    public function test_update_store_with_same_whatsapp_field(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $store = $this->post('/api/store', [
+            'name' => 'loja x',
+            'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
+        ]);
+
+        $store->assertCreated();
+
+        $id = $store->json('store')['id'];
+
+        $storeUpdated = $this->put('api/store/' . $id, [
+            'name' => 'loja y',
+            'description' => 'description',
+            'whatsapp' => '+5584986460846',
+        ]);
+
+        $storeUpdated->assertOk();
+    }
+
+    public function test_should_cant_update_store_with_same_whatsapp_field_get_other_store(): void
+    {
+
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $store = $this->post('/api/store', [
+            'name' => 'loja x',
+            'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
+        ]);
+
+        $store->assertCreated();
+
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $store = $this->post('/api/store', [
+            'name' => 'loja x',
+            'description' => 'descrição',
+            'whatsapp' => '+5584986460845',
+        ]);
+
+        $store->assertCreated();
+
+        $id = $store->json('store')['id'];
+
+        $storeUpdated = $this->withHeaders([
+            'Accept' => 'application/json',
+        ])->put('api/store/' . $id, [
+            'name' => 'loja y',
+            'description' => 'description',
+            'whatsapp' => '+5584986460846',
+        ]);
+
+        $storeUpdated->assertUnprocessable()
+            ->assertInvalid([
+                'whatsapp' => 'The whatsapp has already been taken.',
+            ]);
     }
 
     public function test_update_store_without_image_with_update_image(): void
@@ -71,7 +140,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -113,7 +182,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -150,7 +219,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -186,7 +255,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -222,7 +291,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -258,7 +327,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
@@ -292,7 +361,7 @@ class UpdateTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
