@@ -25,7 +25,7 @@ class GetDisabledTest extends TestCase
 
         $login->assertStatus(200);
 
-        $login->assertExactJsonStructure(['token']);
+        $login->assertExactJsonStructure(['access_token', 'refresh_token']);
 
         $store = $this->post('/api/store', [
             'name' => 'loja x',
