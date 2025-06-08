@@ -68,6 +68,7 @@ class StoreController extends Controller
                 'public_id' => $publicId,
                 'whatsapp' => $request->whatsapp,
                 'owner_id' => Auth::user()->id,
+                'chave_pix' => $request->chave_pix,
             ]);
 
             return response(['store' => $store], 201);
@@ -120,6 +121,7 @@ class StoreController extends Controller
                 'image' => $imageUrl ?? $store->image,
                 'whatsapp' => $request->whatsapp,
                 'public_id' => $publicId ?? $store->public_id,
+                'chave_pix' => $request->chave_pix ?? $store->chave_pix,
             ], $store);
 
             return response(['store' => $storeUpdated], 200);
