@@ -39,6 +39,7 @@ class RegisterTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);
@@ -65,6 +66,7 @@ class RegisterTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);
@@ -90,6 +92,7 @@ class RegisterTest extends TestCase
         $store = $this->post('/api/store', [
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(302);
@@ -115,6 +118,7 @@ class RegisterTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja y',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(302);
@@ -140,6 +144,7 @@ class RegisterTest extends TestCase
         $store = $this->post('/api/store', [
             'name' => 'loja y',
             'description' => 'aodjaos',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(302);
@@ -155,6 +160,7 @@ class RegisterTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertCreated();
@@ -166,10 +172,11 @@ class RegisterTest extends TestCase
         $store = $this->withHeaders([
             'Accept' => 'application/json',
         ])->post('/api/store', [
-                'name' => 'loja y',
-                'description' => 'descrição',
-                'whatsapp' => '+5584986460846',
-            ]);
+            'name' => 'loja y',
+            'description' => 'descrição',
+            'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
+        ]);
 
         $store->assertStatus(422);
         $store->assertJson([
@@ -177,7 +184,7 @@ class RegisterTest extends TestCase
         ]);
     }
 
-    public function test_create_store_without_name_and_description_and_whatsapp(): void
+    public function test_create_store_without_name_and_description_and_whatsapp_and_chave_pix(): void
     {
         $response = $this->post('/api/register', [
             'name' => 'Test User',

@@ -21,6 +21,7 @@ class Store extends Model
         'owner_id',
         'active',
         'whatsapp',
+        'chave_pix',
     ];
 
     public function owner() {
