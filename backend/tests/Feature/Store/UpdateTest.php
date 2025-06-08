@@ -39,6 +39,7 @@ class UpdateTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);
@@ -52,6 +53,7 @@ class UpdateTest extends TestCase
             'name' => 'loja y',
             'description' => 'description',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $storeUpdated->assertStatus(200);
@@ -67,6 +69,7 @@ class UpdateTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertCreated();
@@ -77,6 +80,7 @@ class UpdateTest extends TestCase
             'name' => 'loja y',
             'description' => 'description',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $storeUpdated->assertOk();
@@ -93,6 +97,7 @@ class UpdateTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertCreated();
@@ -105,6 +110,7 @@ class UpdateTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460845',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertCreated();
@@ -117,6 +123,7 @@ class UpdateTest extends TestCase
             'name' => 'loja y',
             'description' => 'description',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $storeUpdated->assertUnprocessable()
@@ -146,6 +153,7 @@ class UpdateTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);
@@ -162,6 +170,7 @@ class UpdateTest extends TestCase
             'name' => 'loja y',
             'description' => 'description',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $storeUpdated->assertStatus(200);
@@ -188,6 +197,7 @@ class UpdateTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);
@@ -199,6 +209,7 @@ class UpdateTest extends TestCase
             'name' => 'loja y',
             'description' => 'description',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $storeUpdated->assertStatus(200);
@@ -225,6 +236,7 @@ class UpdateTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);
@@ -235,6 +247,7 @@ class UpdateTest extends TestCase
             '_method' => 'PUT',
             'description' => 'description',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $storeUpdated->assertStatus(302);
@@ -261,6 +274,7 @@ class UpdateTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);
@@ -271,6 +285,7 @@ class UpdateTest extends TestCase
             '_method' => 'PUT',
             'name' => 'loja x',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $storeUpdated->assertStatus(302);
@@ -297,6 +312,7 @@ class UpdateTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);
@@ -307,6 +323,7 @@ class UpdateTest extends TestCase
             '_method' => 'PUT',
             'name' => 'loja x',
             'description' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $storeUpdated->assertStatus(302);
@@ -333,6 +350,7 @@ class UpdateTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);
@@ -341,6 +359,7 @@ class UpdateTest extends TestCase
 
         $storeUpdated = $this->post('api/store/' . $id, [
             '_method' => 'PUT',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $storeUpdated->assertStatus(302);
@@ -367,6 +386,7 @@ class UpdateTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);
@@ -376,6 +396,7 @@ class UpdateTest extends TestCase
             'name' => 'loja y',
             'description' => 'description',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $storeUpdated->assertStatus(404);

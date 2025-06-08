@@ -31,6 +31,7 @@ class ShowTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);
@@ -63,6 +64,7 @@ class ShowTest extends TestCase
             'name' => 'loja x',
             'description' => 'descrição',
             'whatsapp' => '+5584986460846',
+            'chave_pix' => 'chave-pix-12345',
         ]);
 
         $store->assertStatus(201);

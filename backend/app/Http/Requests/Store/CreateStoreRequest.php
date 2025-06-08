@@ -18,6 +18,7 @@ class CreateStoreRequest extends FormRequest
             'description' => 'required|string',
             'whatsapp' => 'required|string|unique:stores,whatsapp',
             'image' => 'image',
+            'chave_pix' => 'required|string|max:255',
         ];
     }
 }
